@@ -1,0 +1,77 @@
+- job-template:
+    name: "{jjb_proj}" 
+    project-type: freestyle
+    node: r-aa-fatty27
+    folder: sockperf
+    properties:
+        - github:
+            url: "https://github.com/Mellanox/sockperf"
+        - build-discarder:
+            days-to-keep: 50
+            num-to-keep: 20
+        - inject:
+            keep-system-variables: true
+            properties-content: |
+              jjb_proj={jjb_proj}
+    description: Do NOT edit this job through the Web GUI !
+    parameters:
+        - string:
+            name: "sha1"
+            default: "sockperf_v2"
+            description: "Commit to be checked, usualy controlled by PR"
+        - string:
+            name: "DEBUG"
+            default: 0
+            description: "Enable debug prints and traces, valid values are 0-9"
+
+    triggers:
+        - github-pull-request:
+            cron: 'H/5 * * * *'
+            trigger-phrase: '.*\bbot:(?:win:)?retest\b.*'
+            status-context: "sockperf-ci-windows"
+            success-status: "[PASS]"
+            failure-status: "[FAIL]"
+            error-status:   "[FAIL]"
+            status-add-test-results: true
+            # swx-jenkins2 from GitHub Pull Request Builder
+            auth-id: '2806c206-c725-4d8c-af4b-bedfc463b401'
+            org-list: ["Mellanox", "mellanox-hpc", "Mellanox-lab"]
+            allow-whitelist-orgs-as-admins: true
+            cancel-builds-on-update: true
+
+    wrappers:
+        - workspace-cleanup
+        - credentials-binding:
+            - username-password-separated:
+                username: NFS_USER
+                password: NFS_PASSWORD
+                credential-id: windevqa_svc
+
+    builders:
+        - batch: |
+            call %WORKSPACE%\.ci\windows\build.cmd
+  
+    scm:
+        - git:
+            url: "{jjb_git}"
+            # swx-jenkins3 GH user/pass
+            credentials-id: 'b7d08ca7-378c-45d6-ac4b-3f30bdf49168'
+            branches: ['$sha1']
+            shallow-clone: true
+            depth: 10
+            do-not-fetch-tags: false
+            # honor-refspec: true
+            refspec: "+refs/pull/*:refs/remotes/origin/pr/*"
+            browser: githubweb
+            browser-url: "{jjb_git}"
+    script-path: "$script"
+
+- project:
+    name: sockperf
+    jjb_email: 'nwolfer@nvidia.com'
+    jjb_proj: 'sockperf-ci-windows'
+    jjb_git: 'git@github.com:Mellanox/sockperf.git'
+    jjb_owner: 'Nir Wolfer'
+    jjb_jenkinsfile: '.ci/Jenkinsfile.shlib'
+    jobs:
+        - "{jjb_proj}"
