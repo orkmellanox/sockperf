@@ -1,9 +1,10 @@
 - job-template:
     name: "{jjb_proj}"
     project-type: pipeline
+    folder: sockperf
     properties:
         - github:
-             url: "{jjb_git}"
+             url: "https://github.com/Mellanox/sockperf"
         - build-discarder:
             days-to-keep: 50
             num-to-keep: 20
@@ -81,13 +82,13 @@
     triggers:
         - github-pull-request:
             cron: 'H/5 * * * *'
-            trigger-phrase: '.*\bbot:retest\b.*'
-            status-context: "sockperf-build"
+            trigger-phrase: '.*\bbot:(?:lin:)?retest\b.*'
+            status-context: "{jjb_proj}"
             success-status: "[PASS]"
             failure-status: "[FAIL]"
             error-status:   "[FAIL]"
             status-add-test-results: true
-            auth-id: '549927eb-7f38-4a8f-997a-81dd63605782'
+            auth-id: '2806c206-c725-4d8c-af4b-bedfc463b401'
             org-list: ["Mellanox"]
             white-list: ["swx-jenkins","swx-jenkins2","swx-jenkins3","mellanox-github"]
             allow-whitelist-orgs-as-admins: true
@@ -96,7 +97,7 @@
         scm:
             - git:
                 url: "{jjb_git}"
-                credentials-id: 'ef94fa95-5480-41ea-863f-6525aace5bc9'
+                credentials-id: 'b7d08ca7-378c-45d6-ac4b-3f30bdf49168'
                 branches: ['$sha1']
                 shallow-clone: true
                 depth: 2
@@ -105,10 +106,10 @@
                 browser-url: "{jjb_git}"
         script-path: ".ci/Jenkinsfile"
 - project:
-    name: proj_name
-    jjb_email: 'vryabov@nvidia.com'
-    jjb_proj: 'sockperf'
-    jjb_git: 'https://github.com/Mellanox/sockperf'
-    jjb_owner: 'Vasily Ryabov'
+    name: sockperf
+    jjb_email: 'nwolfer@nvidia.com'
+    jjb_proj: 'sockperf-ci-linux'
+    jjb_git: 'git@github.com:Mellanox/sockperf'
+    jjb_owner: 'Nir Wolfer'
     jobs:
         - "{jjb_proj}"
