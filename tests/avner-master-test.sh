@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# SPDX-FileCopyrightText: NVIDIA CORPORATION & AFFILIATES
 # Copyright (c) 2011-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # All rights reserved.
 #
