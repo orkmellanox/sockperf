@@ -38,7 +38,7 @@ general:
         - ".*avner-test-orig"
         - ".*\\.m4"
 
-nbu-open-source:
+dual_gpl_2_bsd_3:
     include:
         - ".*"
     exclude:
