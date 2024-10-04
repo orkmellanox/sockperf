@@ -88,7 +88,7 @@
             failure-status: "[FAIL]"
             error-status:   "[FAIL]"
             status-add-test-results: true
-            auth-id: '2806c206-c725-4d8c-af4b-bedfc463b401'
+            auth-id: 'swx-jenkins5_gh_token'
             org-list: ["Mellanox"]
             white-list: ["swx-jenkins","swx-jenkins2","swx-jenkins3","mellanox-github"]
             allow-whitelist-orgs-as-admins: true
@@ -97,7 +97,7 @@
         scm:
             - git:
                 url: "{jjb_git}"
-                credentials-id: 'b7d08ca7-378c-45d6-ac4b-3f30bdf49168'
+                credentials-id: 'swx-jenkins_ssh_key'
                 branches: ['$sha1']
                 shallow-clone: true
                 depth: 2

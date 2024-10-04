@@ -248,7 +248,7 @@ steps:
       reportName: "BlackDuck report"
       scanMode: "source"
       skipDockerDaemonCheck: true
-      credentialsId: "b68aedbd-e39f-4ee2-acce-e25a5b91fe18"
+      credentialsId: "swx-jenkins3-svc_git-nbu_token"
     env:
       SPRING_APPLICATION_JSON: '{"blackduck.url":"https://blackduck.mellanox.com/","blackduck.api.token":"ODMwOWYwMzEtODA2ZC00MzBjLWI1ZDEtNmFiMjBkYzQzMzkwOjNmNjExN2M1LWE2ZmEtNDZlYS1hZjRiLTZlNDgwNjAwOTVjNw=="}'
 
