@@ -1316,6 +1316,16 @@ static int proc_mode_playback(int id, int argc, const char **argv) {
      * List of supported under-load options.
      */
     const AOPT_DESC self_opt_desc[] = {
+        { OPT_CLIENTPORT,
+          AOPT_ARG,
+          aopt_set_literal(0),
+          aopt_set_string("client_port"),
+          "Force the client side to bind to a specific port (default = 0). " },
+        { OPT_CLIENTADDR,
+          AOPT_ARG,
+          aopt_set_literal(0),
+          aopt_set_string("client_ip", "client_addr"),
+          "Force the client side to bind to a specific address in IPv4, IPv6, UNIX domain socket format (default = 0). " },
         { OPT_REPLY_EVERY,
           AOPT_ARG,
           aopt_set_literal(0),
@@ -1459,6 +1469,11 @@ static int proc_mode_playback(int id, int argc, const char **argv) {
     if (!rc && (!self_obj || (self_obj && !aopt_check(self_obj, OPT_PLAYBACK_DATA)))) {
         log_msg("--data-file must be used with playback mode");
         rc = SOCKPERF_ERR_BAD_ARGUMENT;
+    }
+
+    if (!rc) {
+        // --tcp option must be processed before
+        rc = parse_client_bind_info(common_obj, self_obj);
     }
 
     if (rc) {
