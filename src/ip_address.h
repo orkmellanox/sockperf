@@ -43,7 +43,7 @@ typedef unsigned short int sa_family_t;
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/un.h>      /* definitions for UNIX domain sockets */
-
+#include <cstring>
 #endif // defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__)
 
 #include "os_abstract.h"
